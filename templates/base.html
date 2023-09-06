@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чатик</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <nav>
+        <ul class="flex ml-10">
+            <h2>Чатик</h2>
+        </ul>
+    </nav>
+    <hr>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
