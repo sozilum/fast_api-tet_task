@@ -1,28 +1,24 @@
 from json import load, dump
 
 class MessageProcessing:
-    def __init__(self) -> None:
-        self.counter = int()
-
-    def set_message(self, user_id: int, data:str) -> None:
+    @staticmethod
+    def process_message(user_id: int, data:str) -> str:
         user_id = str(user_id)
-        self.counter += 1
         with open('json/messages.json', 'r') as read_file:
             file = load(read_file)
+            file[user_id][str(len(file[user_id].keys()) + 1)] = data
 
-            if user_id not in file:
-                file.update({user_id:{}})
-                file[user_id][str(self.counter)] = data
-
-            else:
-                file[user_id][str(self.counter)] = data
+        yield '{}. {}: {}'.format(len(file[user_id].keys()) ,user_id ,data)
 
         with open('json/messages.json', 'w') as write_file:
             dump(file, write_file, indent= 2)
 
-
-    def get_message(self, user_id:int) -> str:
+    @staticmethod
+    def create_user_json(user_id:int) -> None:
         user_id = str(user_id)
         with open('json/messages.json', 'r') as read_file:
-            last_message = load(read_file)
-            return '{}. {}: {}'.format(self.counter ,user_id ,last_message[user_id][str(self.counter)])
+            file = load(read_file)
+            file[user_id] = {}
+
+        with open('json/messages.json', 'w') as write_file:
+            dump(file, write_file, indent= 2)
