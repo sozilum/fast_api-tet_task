@@ -1,11 +1,13 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from router import router as chat
-from json_methods import MessageProcessing
+from json_methods import MessageProcessing#,Queue_init
 
 app = FastAPI(
     title= 'Websocket Chat'
 )
 app.include_router(chat)
+#Переключить для очереди
+# processing = Queue_init()
 processing = MessageProcessing()
 
 class ConnectionManager:
@@ -33,7 +35,7 @@ manager = ConnectionManager()
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
     await manager.connect(websocket)
-    processing.create_user_json(client_id)
+    processing.create_user_count(client_id)
     try:
         while True:
             data = await websocket.receive_text()

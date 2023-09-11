@@ -1,24 +1,35 @@
-from json import load, dump
+from multiprocessing import Queue
+from json import dumps
 
 class MessageProcessing:
-    @staticmethod
-    def process_message(user_id: int, data:str) -> str:
+    def __init__(self) -> None:
+        self.user_count = {}
+
+    def process_message(self, user_id: int, data:str) -> str:
         user_id = str(user_id)
-        with open('json/messages.json', 'r') as read_file:
-            file = load(read_file)
-            file[user_id][str(len(file[user_id].keys()) + 1)] = data
-
-        yield '{}. {}: {}'.format(len(file[user_id].keys()) ,user_id ,data)
-
-        with open('json/messages.json', 'w') as write_file:
-            dump(file, write_file, indent= 2)
-
-    @staticmethod
-    def create_user_json(user_id:int) -> None:
+        self.user_count[user_id] += 1
+        json_object = {
+            'count':self.user_count[user_id],
+            'data':data
+            }
+    
+        return dumps(json_object)
+    
+    def create_user_count(self, user_id:int) -> None:
         user_id = str(user_id)
-        with open('json/messages.json', 'r') as read_file:
-            file = load(read_file)
-            file[user_id] = {}
+        self.user_count[user_id] = 0
 
-        with open('json/messages.json', 'w') as write_file:
-            dump(file, write_file, indent= 2)
+
+#На всякий случай
+# class Queue_init(MessageProcessing):
+#     def __init__(self) -> None:
+#         super().__init__()
+#         self.queue = Queue()
+
+#     def create_user_count(self, user_id: int) -> None:
+#         self.queue.put(super().create_user_count(user_id))
+#         return self.queue.get()
+
+#     def process_message(self, user_id: int, data: str) -> str:
+
+#         return super().process_message(user_id, data)
