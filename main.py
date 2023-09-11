@@ -1,13 +1,11 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from router import router as chat
-from json_methods import MessageProcessing#,Queue_init
+from json_methods import MessageProcessing
 
 app = FastAPI(
     title= 'Websocket Chat'
 )
 app.include_router(chat)
-#Переключить для очереди
-# processing = Queue_init()
 processing = MessageProcessing()
 
 class ConnectionManager:
