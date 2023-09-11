@@ -20,7 +20,7 @@ class MessageProcessing:
         self.user_count[user_id] = 0
 
 
-#На всякий случай
+#На всякий случай. Можно переключить и обработка пойдет через очередь
 # class Queue_init(MessageProcessing):
 #     def __init__(self) -> None:
 #         super().__init__()
