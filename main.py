@@ -33,10 +33,10 @@ manager = ConnectionManager()
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
     await manager.connect(websocket)
-    processing.create_user_count(client_id)
     try:
         while True:
             data = await websocket.receive_text()
             await manager.send_personal_message(processing.process_message(user_id=client_id, data=data), websocket)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+        processing.clear_desconnected_user_count(user_id=client_id)
