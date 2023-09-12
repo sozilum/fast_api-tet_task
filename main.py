@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from router import router as chat
 from json_methods import MessageProcessing
+from router import router as chat
 
 app = FastAPI(
     title= 'Websocket Chat'
@@ -21,10 +21,6 @@ class ConnectionManager:
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
         await websocket.send_text(message)
-
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
-            await connection.send_text(message)
 
 
 manager = ConnectionManager()
