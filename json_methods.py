@@ -5,7 +5,7 @@ class MessageProcessing:
     def __init__(self) -> None:
         self.user_count = {}
 
-    def process_message(self, user_id: int, data:str) -> dict:
+    def process_message(self, user_id: int, data:str) -> str:
 
         if user_id not in self.user_count:
             self.user_count[user_id] = 0
